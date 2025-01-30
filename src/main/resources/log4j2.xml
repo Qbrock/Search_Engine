@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE log4j:configuration>
+<!-- Status determines which *internal* log4j log messages are included. -->
+<Configuration status="WARN">
+	<Appenders>
+		<!-- We can make the console output more user-friendly if we want. -->
+		<!-- Got help from par, and worked on this with uhh, I forget his name but another student. -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern= "%p: %m%throwable{short.message}%ex{none}%n">
+			</PatternLayout>
+		</Console>
+
+		<!-- We can still keep details in a file log for debugging. -->
+		<File name="FileLog" fileName="debug.log" append="false" immediateFlush="true" createOnDemand="true">
+			<PatternLayout pattern="[%03sequenceNumber %-5level{lowerCase=false}] %thread at %file:%line - %message%throwable{3}%n">
+			</PatternLayout>
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.eclipse.jetty" level="INFO">
+			<AppenderRef ref="Console" />
+		</Logger>
+
+		<!-- This is the configuration used by all other loggers. -->
+		<Root level="OFF">
+			<AppenderRef ref="Console" level="INFO" />
+			<AppenderRef ref="FileLog" level="ALL"  />
+		</Root>
+	</Loggers>
+</Configuration>
